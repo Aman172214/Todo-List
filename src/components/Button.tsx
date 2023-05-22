@@ -1,17 +1,10 @@
-import React from "react";
-import "./Button.css";
+import React from 'react';
 
-interface ButtonProps {
-  variant: "big" | "small";
-  onClick: () => void;
-  children: React.ReactNode;
-}
-
-const Button: React.FC<ButtonProps> = ({ variant, onClick, children }) => {
-  const buttonClassName = `button ${variant}`;
+const Button = ({ variant, onClick, children }) => {
+  const buttonClass = variant === 'big' ? 'btn btn-primary' : 'btn btn-danger btn-sm rounded';
 
   return (
-    <button className={buttonClassName} onClick={onClick}>
+    <button className={buttonClass} onClick={onClick}>
       {children}
     </button>
   );

@@ -1,37 +1,36 @@
 import React, { useState } from "react";
 import Button from "./Button.tsx";
 import Checkbox from "./Checkbox.tsx";
-import './TodoRow.css'
 
-interface TodoRowProps {
-  label: string;
-  onDelete: () => void;
-  onComplete: (isChecked: boolean) => void;
-}
+const TodoRow = ({ label, onDelete }) => {
+  const [hovered, setHovered] = useState(false);
 
-const TodoRow: React.FC<TodoRowProps> = ({ label, onDelete, onComplete }) => {
-    const [isHovered, setIsHovered] = useState(false);
-  
-    return (
-      <div
-        className={`todo-row ${isHovered ? "hovered" : ""}`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <Checkbox label={label} onChange={onComplete} />
-        <div className="flex-grow"></div>
-        <div className="delete-container">
-          <Button
-            variant="small"
-            className={`delete-button ${isHovered ? "visible" : ""}`}
-            onClick={onDelete}
-          >
-            Delete
-          </Button>
-        </div>
-      </div>
-    );
+  const handleMouseEnter = () => {
+    setHovered(true);
   };
-  
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
+
+  const handleDeleteClick = () => {
+    onDelete();
+  };
+
+  return (
+    <div
+      className="d-flex align-items-center justify-content-between"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Checkbox label={label} />
+      {hovered && (
+        <Button variant="small" onClick={handleDeleteClick}>
+          <span aria-hidden="true">&times;</span>
+        </Button>
+      )}
+    </div>
+  );
+};
 
 export default TodoRow;

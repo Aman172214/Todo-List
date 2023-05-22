@@ -1,57 +1,63 @@
 import React, { useState } from "react";
 import TodoRow from "./components/TodoRow.tsx";
-import Button from "./components/Button.tsx";
-import "./App.css";
 
-const App: React.FC = () => {
-  const [todos, setTodos] = useState<string[]>([]);
+const App = () => {
+  const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event) => {
     setNewTodo(event.target.value);
   };
 
   const handleAddTodo = () => {
-    if (newTodo) {
+    if (newTodo.trim() !== "") {
       setTodos([...todos, newTodo]);
       setNewTodo("");
     }
   };
 
-  const handleDeleteTodo = (index: number) => {
+  const handleDeleteTodo = (index) => {
     const updatedTodos = [...todos];
     updatedTodos.splice(index, 1);
     setTodos(updatedTodos);
   };
 
-  const handleCompleteTodo = (index: number, isChecked: boolean) => {
-    const updatedTodos = [...todos];
-    updatedTodos[index] = isChecked
-      ? `✓ ${todos[index]}`
-      : todos[index].slice(2);
-    setTodos(updatedTodos);
-  };
-
   return (
-    <div className="container">
-      <div className="card">
-        <h1 className="heading">To-Do List</h1>
-        <div className="app">
-          <div className="todo-list">
-            {todos.map((todo, index) => (
-              <TodoRow
-                key={index}
-                label={todo}
-                onDelete={() => handleDeleteTodo(index)}
-                onComplete={(isChecked) => handleCompleteTodo(index, isChecked)}
-              />
-            ))}
-          </div>
-          <div className="add-todo">
-            <input type="text" value={newTodo} onChange={handleInputChange} />
-            <Button variant="big" onClick={handleAddTodo}>
-              Add Todo
-            </Button>
+    <div className="container mt-4">
+      <div className="row justify-content-md-center">
+        <div className="col-6">
+          <div className="card ">
+            <div className="card-header">
+              <h1 className="card-title text-center">Todo List</h1>
+            </div>
+            <div className="card-body">
+              <div className="input-group mb-3">
+                <input
+                  type="text"
+                  className="form-control me-3 rounded"
+                  placeholder="Enter a new todo..."
+                  value={newTodo}
+                  onChange={handleInputChange}
+                />
+                <button
+                  className="btn btn-primary rounded"
+                  onClick={handleAddTodo}
+                  disabled={newTodo.trim() === ""}
+                >
+                  Add Todo
+                </button>
+              </div>
+              <ul className="list-group">
+                {todos.map((todo, index) => (
+                  <li className="list-group-item" key={index}>
+                    <TodoRow
+                      label={todo}
+                      onDelete={() => handleDeleteTodo(index)}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

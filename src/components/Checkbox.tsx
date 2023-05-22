@@ -1,20 +1,11 @@
 import React from "react";
 
-interface CheckboxProps {
-  label: string;
-  onChange: (isChecked: boolean) => void;
-}
-
-const Checkbox: React.FC<CheckboxProps> = ({ label, onChange }) => {
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.checked);
-  };
-
+const Checkbox = ({ label }) => {
   return (
-    <label>
-      <input type="checkbox" onChange={handleCheckboxChange} />
-      {label}
-    </label>
+    <div className="form-check">
+      <input className="form-check-input" type="radio" />
+      <label className="form-check-label">{label}</label>
+    </div>
   );
 };
 
